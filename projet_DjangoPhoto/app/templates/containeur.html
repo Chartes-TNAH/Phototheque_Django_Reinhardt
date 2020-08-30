@@ -1,0 +1,43 @@
+{% extends 'layouts/default.html'%}
+{%block body%}
+
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between" role="navigation">
+	<span><a class="navbar-brand" href="{{url_for('accueil')}}"><img src="{{url_for('static', filename='img/bandeau01.png')}}" width="100" height="80" class="d-inline-block align-top" alt="logo"></a></span>
+	<div class="container-fluid">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item">
+				<a class="nav-link" href="{{url_for('biographie')}}"><button type="button" class="btn btn-light" style="width: 130px; font-weight:bold;">Biographie</button></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{url_for('galerie')}}"><button type="button" class="btn btn-light" style="width: 130px; font-weight:bold;">Galerie</button></a>
+			</li>
+			<li>
+				<a class="nav-link" href="{{url_for('a_propos')}}"><button type="button" class="btn btn-light" style="width: 130px; font-weight:bold;">A propos</button></a>
+			</li>
+		</ul>
+<!--Barre de recherche plein texte-->		
+		<form class="form-inline my-4" action="{{url_for('recherche')}}" method="GET">
+			<input class="form-control mr-sm-2" name="keyword" type="text" placeholder="Recherche..." aria-label="search" style="width: 500px">
+			<button class="btn btn-outline-dark" type="submit" style="color: white ; border-color: white; font-weight:bold;">Click!</button>
+		</form>
+	</div>
+</nav>
+
+{%block contenu%}{%endblock contenu%}
+
+<!-- Footer -->
+<footer class="page-footer font-small text-white bg-dark">
+	<div class="container">
+
+<!-- Copyright -->
+		<ul class="footer-copyright text-center py-3">
+			<a href="https://github.com/annelegrandjazz" target="_blank">
+				<p>© Anne Legrand - TNAH - promotion 2019-2020
+					<p />
+					<a href="http://www.chartes.psl.eu/fr/cursus/master-technologies-numeriques-appliquees-histoire" target="_blank"><img src="http://www.chartes.psl.eu/sites/all/themes/enc_base/images/public/logo-ecole-nationale-des-chartes-header.png" class="img-fluid" alt="" width="200"></a>
+			</a></ul>
+	</div>
+</footer>
+
+{%endblock body%}

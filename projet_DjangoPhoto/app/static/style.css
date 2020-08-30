@@ -1,0 +1,115 @@
+/*La page Style.css permet de modifier les styles des différents éléments du site*/
+
+/*Ici les effets appliqués à la photographie en page Biographie*/
+.img_django{
+  float: left; 
+  margin: 0 6px 0 0;
+  border: 5px solid black;
+    padding: 5px;
+    max-width: 100%;
+  height: auto;
+}
+
+/*Ici se trouve l'effet brillant qui s'active lorsque l'on passe la souris sur les photographies*/
+.img_resultat div{
+  position: relative;
+  padding-left: 5px;
+}
+
+.img_resultat div::before{
+  position: absolute;
+  padding-left: 5px;
+  top: 0;
+  left: -75%;
+  z-index: 2;
+  display: block;
+  content: '';
+  width: 50%;
+  height: 100%;
+  background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+  -webkit-transform: skewX(-25deg);
+  transform: skewX(-25deg);
+}
+
+.img_resultat div:hover::before {
+  -webkit-animation: shine 4s;
+  animation: shine 4s;
+}
+@-webkit-keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+
+/*Ici les effets appliqués au texte de description des images*/
+.description_img{
+  border-width: 3px;
+  border-style: groove;
+  border-color: blue;
+  box-shadow: 6px 6px 6px black;
+  text-align: left;
+  margin-bottom: 1rem;
+  margin-left: 4rem;
+  margin-right: 4rem;
+  margin-top: 1rem;
+  padding-left: 8px;
+}
+
+/*Ici les effets appliqués aux avertissements en page d'accueil, au footer,
+  à la page A propos ainsi qu'à la page Biographie*/
+.avertissement{
+  font-style: italic;
+  text-align: justify;
+}
+
+.page-footer{
+  position: absolute;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.accueil{
+  margin: 8px 8px 8px 8px;
+  padding: 8px;
+  text-align: justify;
+}
+
+.propos{
+  margin: 0 8px 0 0;
+  padding: 8px;
+  text-align: justify;
+}
+
+.biog{
+  text-align: justify;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+
+/*Ici les effets appliqués aux images en page Galerie*/
+.card{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25em;
+  border-width: 0px;
+}
+
+.card-text{
+  font-weight: bold;
+  text-align: center;
+}
+
+.gallery {
+-webkit-column-count: 2;
+-moz-column-count: 2;
+column-count: 2;
+}

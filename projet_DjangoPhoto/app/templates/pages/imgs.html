@@ -1,0 +1,39 @@
+{% extends "containeur.html" %}
+<!-- Cette page contient le code qui permet d'afficher chacune des photographies -->
+
+{% block titre %}
+        {%if img %} | Image : {{img.id}} {% endif %}
+{% endblock %}
+
+{% block contenu %}
+
+    {% if img %}
+
+<!-- On pose une condition : si les éléments demandés existent dans la BDD, alors ce qui est contenu dans
+ if img va s'exécuter. Si ce n'est pas le cas le else est exécuté et renvoie un message d'avertissement -->
+
+<br/>
+<!-- Ici toutes les informations concernant les images stockées dans la BDD et que l'on souhaite afficher -->
+<div class="description_img">
+            <h1 style="font-size: 30px;">{{img.titre}}</h1>
+            <dl>
+                <dt>Date :</dt> <dd>{{img.date}}</dd>
+                <dt>Description :</dt> <dd>{{img.description}}</dd>
+                <dt>Photographe :</dt> <dd>{{img.nom_photographe}}</dd>
+                <dt>Source :</dt> <dd>{{img.source|safe}}</dd>
+            </dl>
+</div>
+<div>
+    <div class="img_resultat">
+    {% if img.chemin %}
+    <div>{{img.chemin|safe}}</div>
+    {% endif %}
+    </div>
+</div>
+<!--Cette div permet de faire s'afficher l'image allant avec
+    la description sélectionnée, le |safe est indispensable à
+    l'affiche de celle-ci -->
+    {% else %}
+            <p>La base de données est en cours de constitution</p>
+    {% endif %}
+{% endblock %}
