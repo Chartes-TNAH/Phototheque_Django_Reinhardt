@@ -1,8 +1,9 @@
 #import des packages
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 import os
-import os.path
+from .constantes import SECRET_KEY
 
 #Stockage des chemins courants
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
@@ -18,6 +19,8 @@ app = Flask(
     static_folder=statics
 )
 
+# On configure le secret
+app.config['SECRET_KEY'] = SECRET_KEY
 #On configure la base de données
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./db_DjangoPhoto.sqlite'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -25,4 +28,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 #On initie l'extension
 db = SQLAlchemy(app)
 
-from .routes import accueil, biographie, galerie, a_propos, img, recherche
+# On met en place la gestion d'utilisateur-rice-s
+login = LoginManager(app)
+
+import djangophoto.routes

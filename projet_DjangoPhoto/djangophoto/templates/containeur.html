@@ -7,18 +7,30 @@
 	<div class="container-fluid">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-				<a class="nav-link" href="{{url_for('biographie')}}"><button type="button" class="btn btn-light" style="width: 130px; font-weight:bold;">Biographie</button></a>
+				<a class="nav-link" href="{{url_for('biographie')}}"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Biographie</button></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="{{url_for('galerie')}}"><button type="button" class="btn btn-light" style="width: 130px; font-weight:bold;">Galerie</button></a>
+				<a class="nav-link" href="{{url_for('galerie')}}"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Galerie</button></a>
 			</li>
 			<li>
-				<a class="nav-link" href="{{url_for('a_propos')}}"><button type="button" class="btn btn-light" style="width: 130px; font-weight:bold;">A propos</button></a>
+				<a class="nav-link" href="{{url_for('a_propos')}}"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">A propos</button></a>
 			</li>
+			{% if not current_user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for("inscription")}}"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Inscription</button></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for("connexion")}}"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Connexion</button></a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for("deconnexion")}}"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Déconnexion ({{current_user.user_nom}})</button></a>
+              </li>
+            {% endif %}
 		</ul>
 <!--Barre de recherche plein texte-->		
 		<form class="form-inline my-4" action="{{url_for('recherche')}}" method="GET">
-			<input class="form-control mr-sm-2" name="keyword" type="text" placeholder="Recherche..." aria-label="search" style="width: 500px">
+			<input class="form-control mr-sm-2" name="keyword" type="text" placeholder="Recherche..." aria-label="search" style="width: 300px">
 			<button class="btn btn-outline-dark" type="submit" style="color: white ; border-color: white; font-weight:bold;">Click!</button>
 		</form>
 	</div>

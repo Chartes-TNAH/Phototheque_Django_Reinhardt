@@ -1,5 +1,15 @@
+from flask import render_template, request, flash, redirect
+
+#La fonction request permet d'afficher les requêtes
+
 #On importe la variable app qui instancie l'application
-from .app import app
+from djangophoto.app import app, login
+#On déclare les tables de la BDD
+from djangophoto.modeles.donnees import Image
+from djangophoto.modeles.utilisateurs import User
+from flask_login import login_user, current_user, logout_user
+
+
 #On importe flask :
 #- render_template permet de relier les templates aux URLS
 #- url_for permet de construire les URLS vers les fonctions et les pages HTML
@@ -9,11 +19,7 @@ from flask import Flask
 #qui sert dans la fonction de requête pour la recherche plein texte 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
-#La fonction request permet d'afficher les requêtes
-from flask import request
 
-#On déclare les tables de la BDD
-from app.modeles.donnees import Image
 
 #On souhaite avoir 5 résultats par page lors de la recherche
 RESULTATS_PAR_PAGES = 5
@@ -31,7 +37,7 @@ def galerie():
     return render_template("pages/galerie.html", Images=cheminImages)
 #Permet de faire apparaitre l'ensemble des images dans la page Galerie
 
-#page de la biographie d'Atget
+#page de la biographie de Django Reinhardt
 @app.route("/Biographie")
 def biographie():
 		return render_template("pages/biographie.html") 
@@ -82,6 +88,60 @@ def recherche():
     return render_template("pages/recherche.html", resultats=resultats, titre=titre, keyword=motclef)
     # On retourne la page recherhce.html, et on indique à quoi correspondent les variables resultats, titre et keyword,
     # qui seront appelées ensuite au sein des pages html
+
+@app.route("/Inscription", methods=["GET", "POST"])
+def inscription():
+	   
+    #Route gérant les inscriptions
+    #
+    # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    if request.method == "POST":
+        statut, donnees = User.creer(
+            login=request.form.get("login", None),
+            email=request.form.get("email", None),
+            nom=request.form.get("nom", None),
+            motdepasse=request.form.get("motdepasse", None)
+        )
+        if statut is True:
+            flash("Enregistrement effectué. Identifiez-vous maintenant", "success")
+            return redirect("/")
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ",".join(donnees), "error")
+            return render_template("pages/inscription.html")
+    else:
+        return render_template("pages/inscription.html")
+   
+
+@app.route("/connexion", methods=["POST", "GET"])
+def connexion():
+    """ Route gérant les connexions
+    """
+    if current_user.is_authenticated is True:
+        flash("Vous êtes déjà connecté-e", "info")
+        return redirect("/")
+    # Si on est en POST, cela veut dire que le formulaire a été envoyé
+    if request.method == "POST":
+        utilisateur = User.identification(
+            login=request.form.get("login", None),
+            motdepasse=request.form.get("motdepasse", None)
+        )
+        if utilisateur:
+            flash("Connexion effectuée", "success")
+            login_user(utilisateur)
+            return redirect("/")
+        else:
+            flash("Les identifiants n'ont pas été reconnus", "error")
+
+    return render_template("pages/connexion.html")
+login.login_view = 'connexion'
+
+
+@app.route("/deconnexion", methods=["POST", "GET"])
+def deconnexion():
+    if current_user.is_authenticated is True:
+        logout_user()
+    flash("Vous êtes déconnecté-e", "info")
+    return redirect("/")
 
 #page de l'erreur 404 lorsque la page demandée est introuvable
 #template "error/404"
