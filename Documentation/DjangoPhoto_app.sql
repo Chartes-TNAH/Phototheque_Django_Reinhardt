@@ -33,6 +33,33 @@ CREATE TABLE IF NOT EXISTS Image (
 	tag TEXT NOT NULL,
 	orientation TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS tag (
+	tag_nom TEXT NOT NULL
+);
+
+INSERT INTO `tag` (
+	`tag_nom`) 
+VALUES 
+("quintette"),
+("musicien"),
+("famille"),
+("portrait"),
+("autre")
+;
+
+CREATE TABLE IF NOT EXISTS orientation (
+	orientation_type TEXT NOT NULL
+);
+
+INSERT INTO `orientation` (
+	`orientation_type`) 
+VALUES 
+("portrait"),
+("paysage")
+;
+
+
 COMMIT;
 
 BEGIN TRANSACTION;

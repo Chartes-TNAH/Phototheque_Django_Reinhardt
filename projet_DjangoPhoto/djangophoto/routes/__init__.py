@@ -41,6 +41,11 @@ def galerie():
 @app.route("/Biographie")
 def biographie():
 		return render_template("pages/biographie.html") 
+		
+#page de l'ajout d'image
+@app.route("/Importer")
+def edit_image():
+		return render_template("pages/edit_image.html") 
 
 #page à propos
 @app.route("/A_propos")

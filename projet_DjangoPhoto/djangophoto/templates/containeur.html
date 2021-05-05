@@ -24,8 +24,12 @@
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for("deconnexion")}}"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Déconnexion ({{current_user.user_nom}})</button></a>
+                <a class="nav-link" href="{{url_for("edit_image")}}"><button type="button" class="btn btn-light" style="width: 150px; font-weight:bold;">Ajouter une image</button></a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for("deconnexion")}}"><button type="button" class="btn btn-light" style="width: 150px; font-weight:bold;">Déconnexion ({{current_user.user_nom}})</button></a>
+              </li>
+              
             {% endif %}
 		</ul>
 <!--Barre de recherche plein texte-->		
