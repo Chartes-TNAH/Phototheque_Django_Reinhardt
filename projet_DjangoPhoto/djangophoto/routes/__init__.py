@@ -33,6 +33,7 @@ def accueil():
 #page Galerie
 @app.route("/Galerie")
 def galerie():
+ #   cheminImages = Image.query.filter(Image.image_valid=="y").all
     cheminImages = Image.query.all()
     return render_template("pages/galerie.html", Images=cheminImages)
 #Permet de faire apparaitre l'ensemble des images dans la page Galerie

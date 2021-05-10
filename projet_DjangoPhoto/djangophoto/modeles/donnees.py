@@ -14,3 +14,4 @@ class Image(db.Model):
     source = db.Column(db.String(64))
     tag = db.Column(db.String(64))
     orientation = db.Column(db.String(64))
+    image_valid = db.Column(db.String(2))

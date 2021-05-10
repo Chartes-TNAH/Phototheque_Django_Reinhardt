@@ -3,23 +3,24 @@
 ---dispensé aux M2-TNAH par Thibault CLérice
 
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS `user`;
+
 CREATE TABLE IF NOT EXISTS `user` (
 	`user_id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`user_nom`	TINYTEXT NOT NULL,
 	`user_login`	VARCHAR ( 45 ) NOT NULL,
 	`user_email`	TINYTEXT NOT NULL,
-	`user_motdepasse`	VARCHAR ( 100 ) NOT NULL
+	`user_motdepasse`	VARCHAR ( 100 ) NOT NULL,
+	`user_type`	TEXT
 );
 
 DROP TABLE IF EXISTS `authorship`;
 CREATE TABLE IF NOT EXISTS `authorship` (
 	`authorship_id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`authorship_user_id`	integer NOT NULL,
-	`authorship_place_id`	integer NOT NULL,
+	`authorship_image_id`	integer NOT NULL,
 	`authorship_date`	DATETIME DEFAULT current_timestamp,
 	FOREIGN KEY(authorship_user_id) REFERENCES user(user_id),
-	FOREIGN KEY(authorship_place_id) REFERENCES place(place_id)
+	FOREIGN KEY(authorship_image_id) REFERENCES image(id)
 );
 
 CREATE TABLE IF NOT EXISTS Image (
@@ -31,7 +32,8 @@ CREATE TABLE IF NOT EXISTS Image (
 	description TEXT NOT NULL,
 	source TEXT NOT NULL,
 	tag TEXT NOT NULL,
-	orientation TEXT NOT NULL
+	orientation TEXT NOT NULL,
+	image_valid	TINYTEXT
 );
 
 CREATE TABLE IF NOT EXISTS tag (
