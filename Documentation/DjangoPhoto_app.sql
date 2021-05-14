@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 	`user_login`	VARCHAR ( 45 ) NOT NULL,
 	`user_email`	TINYTEXT NOT NULL,
 	`user_motdepasse`	VARCHAR ( 100 ) NOT NULL,
-	`user_type`	TEXT
+	`user_type`	TEXT DEFAULT 'user'
 );
 
 DROP TABLE IF EXISTS `authorship`;
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS Image (
 	source TEXT NOT NULL,
 	tag TEXT NOT NULL,
 	orientation TEXT NOT NULL,
-	image_valid	TINYTEXT
+	image_valid	TINYTEXT DEFAULT 'y'
 );
 
 CREATE TABLE IF NOT EXISTS tag (

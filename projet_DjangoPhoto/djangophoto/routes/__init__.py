@@ -8,7 +8,9 @@ from djangophoto.app import app, login
 from djangophoto.modeles.donnees import Image
 from djangophoto.modeles.utilisateurs import User
 from flask_login import login_user, current_user, logout_user
-
+from djangophoto.utils import lenTitle, lenDesc, extension_ok
+from werkzeug import secure_filename
+from djangophoto.constantes import DOSSIER_UPLOAD
 
 #On importe flask :
 #- render_template permet de relier les templates aux URLS
@@ -34,6 +36,7 @@ def accueil():
 @app.route("/Galerie")
 def galerie():
  #   cheminImages = Image.query.filter(Image.image_valid=="y").all
+ #   développement futur pour la validation des images par l'administrateur.()
     cheminImages = Image.query.all()
     return render_template("pages/galerie.html", Images=cheminImages)
 #Permet de faire apparaitre l'ensemble des images dans la page Galerie
@@ -47,6 +50,68 @@ def biographie():
 @app.route("/Importer")
 def edit_image():
 		return render_template("pages/edit_image.html") 
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    # # # VALEURS RENSEIGNÉES PAR L'UTILISATEUR
+    titre = request.form.get("titre", None)
+    description = request.form.get("desc", None)
+    orientation = request.form.get("sens", None)
+    date = request.form.get("date", None)
+    nom_photographe = request.form.get("author", None)
+    source = request.form.get("source", None)
+    tag = request.form.get("clef", None)
+
+    # # # LISTE DE TOUS LES LIENS VERS LES IMAGES DÉJÀ EXISTANTES SUR LE SERVEUR
+    img_links = Image.query.with_entities(Image.chemin)
+    img_links = [link[0] for link in img_links.all()]
+
+
+    # # # IMPORT DE FICHIER
+    if request.method == 'POST':
+        f = request.files['file']
+        # dans f, on stocke le fichier uploadé
+        if f:  # on vérifie qu'un fichier a bien été envoyé
+            if extension_ok(f.filename):  # on vérifie que son extension est valide
+                nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
+                f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier img
+                downloadlink = url_for('static', filename = "img/" + nom)
+
+                # on stocke le lien de stockage sur le serveur du fichier uploadé
+                if downloadlink in img_links:
+                    # Si le document est déjà présent sur le serveur
+                    return redirect(url_for('oups'))
+                else:
+                    image = Image.add_img(titre, description, orientation, date, nom_photographe, source, tag, downloadlink)
+                    # on ajoute l'image à la BDD
+
+                    return redirect(url_for('upped'))
+            else:
+                flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
+        else:
+            flash(u'Vous avez oublié le fichier !', 'error')
+
+    return render_template('pages/edit_image.html', form=form)
+
+
+@app.route("/upped")
+def upped():
+    """
+    Route pour la page à afficher après avoir importé un nouvelle image dans la BDD
+
+    """
+
+    return render_template("pages/upped.html")
+
+@app.route("/oups")
+def oups():
+    """
+    Route pour la page à afficher si le fichier à importer est déjà sur le serveur
+
+    """
+
+    return render_template("pages/oups.html")
+
 
 #page à propos
 @app.route("/A_propos")

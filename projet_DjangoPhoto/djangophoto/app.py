@@ -3,7 +3,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import os
-from .constantes import SECRET_KEY
+from .constantes import SECRET_KEY 
+from .constantes import DOSSIER_UPLOAD
 
 #Stockage des chemins courants
 chemin_actuel = os.path.dirname(os.path.abspath(__file__))
@@ -11,6 +12,9 @@ chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
 #Stockage des chemins vers les "static"
 statics = os.path.join(chemin_actuel, "static")
+# on stocke le chemin vers le dossier où stocker les fichiers uploadés
+uploads = os.path.join(chemin_actuel, "img")
+
 
 #On paramètre l'application web
 app = Flask( 
