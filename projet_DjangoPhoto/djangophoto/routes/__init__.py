@@ -82,7 +82,7 @@ def upload():
                     # Si le document est déjà présent sur le serveur
                     return redirect(url_for('oups'))
                 else:
-                    image = Image.add_img(titre, description, orientation, date, nom_photographe, source, tag, downloadlink)
+                    new_image = Image.add_img(titre, description, orientation, date, nom_photographe, source, tag, downloadlink)
                     # on ajoute l'image à la BDD
 
                     return redirect(url_for('upped'))

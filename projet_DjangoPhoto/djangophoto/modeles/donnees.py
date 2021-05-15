@@ -34,6 +34,7 @@ class Image(db.Model):
         :param downloadLink: lien de téléchargement de l'image (str)
         :return:
         """
+        
         erreurs = []
         if not titre:
             erreurs.append("Veuillez renseigner un titre pour cette image.")
@@ -51,24 +52,25 @@ class Image(db.Model):
             erreurs.append("Veuillez renseigner une mot-clef pour cette image.")
         if not downloadlink:
              erreurs.append("Aucun lien de téléchargement pour cette image.")             
-             
+            
 
-        image = Image(titre=titre,
-                        description=description,
-                        orientation=orientation,
-                        date=date,
-                        nom_photographe=nom_photographe,
-                        source=source,
-                        tag=tag,
-                        chemin=downloadlink)
+        new_image = Image(
+        titre=titre,
+        description=description,
+        orientation=orientation,
+        date=date,
+        nom_photographe=nom_photographe,
+        source=source,
+        tag=tag,
+        chemin=downloadlink)
         # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
 
         try:
             # On essaie d'ajouter une image à la BDD
-            db.session.add(image)
+            db.session.add(new_image)
             db.session.commit()
-
-            return image
+            return True, new_image
+            
         except Exception as erreur:
             return False, [str(erreur)]
 
