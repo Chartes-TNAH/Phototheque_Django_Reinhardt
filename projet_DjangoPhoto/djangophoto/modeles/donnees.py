@@ -1,4 +1,7 @@
+from flask import url_for
+
 from sqlalchemy import Column, Integer, String
+
 from ..app import db
 #On importe l'objet SQLAlchemy du module flask_sqlachemy
 
@@ -35,24 +38,26 @@ class Image(db.Model):
         :return:
         """
         
-        erreurs = []
+        errors = []
         if not titre:
-            erreurs.append("Veuillez renseigner un titre pour cette image.")
+            errors.append("Veuillez renseigner un titre pour cette image.")
         if not description:
-            erreurs.append("Veuillez renseigner une description pour cette image.")
+            errors.append("Veuillez renseigner une description pour cette image.")
         if not orientation:
-            erreurs.append("Veuillez renseigner une orientation pour cette image.")
+            errors.append("Veuillez renseigner une orientation pour cette image.")
         if not date:
-            erreurs.append("Veuillez renseigner une date pour cette image.")
+            errors.append("Veuillez renseigner une date pour cette image, si elle est inconnue, indiquer: n.d.")
         if not nom_photographe:
-            erreurs.append("Veuillez renseigner un nom de photographe pour cette image.")
+            errors.append("Veuillez renseigner un nom du photographe pour cette image, si le nom est inconnu, indiquer: n.n.")
         if not source:
-             erreurs.append("Veuillez renseigner un propriétaire  pour cette image.")
+             errors.append("Veuillez renseigner un propriétaire  pour cette image.")
         if not tag:
-            erreurs.append("Veuillez renseigner une mot-clef pour cette image.")
+            errors.append("Veuillez renseigner une mot-clef pour cette image.")
         if not downloadlink:
-             erreurs.append("Aucun lien de téléchargement pour cette image.")             
-            
+             errors.append("Aucun lien de téléchargement pour cette image, si aucun lien, indiquer : n.l.")             
+    
+        if len(errors) > 0:
+            return False, errors        
 
         new_image = Image(
         titre=titre,

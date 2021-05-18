@@ -12,7 +12,7 @@ chemin_actuel = os.path.dirname(os.path.abspath(__file__))
 templates = os.path.join(chemin_actuel, "templates")
 #Stockage des chemins vers les "static"
 statics = os.path.join(chemin_actuel, "static")
-# on stocke le chemin vers le dossier où stocker les fichiers uploadés
+# on stocke le chemin vers le dossier où stocker les images téléchargées
 uploads = os.path.join(chemin_actuel, "img")
 
 
