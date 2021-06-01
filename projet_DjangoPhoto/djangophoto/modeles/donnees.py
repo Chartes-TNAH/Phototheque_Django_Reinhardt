@@ -2,7 +2,7 @@ from flask import url_for
 
 from sqlalchemy import Column, Integer, String
 
-from ..app import db
+from .. app import db
 #On importe l'objet SQLAlchemy du module flask_sqlachemy
 
 #On crée une classe par table ; une ligne par colonne
@@ -20,7 +20,7 @@ class Image(db.Model):
     image_valid = db.Column(db.String(2))
     
     def get_id(self):
-        return(self.image_id)
+        return(self.id)
 
 
     @staticmethod
@@ -51,8 +51,9 @@ class Image(db.Model):
             errors.append("Veuillez renseigner un nom du photographe pour cette image, si le nom est inconnu, indiquer: n.n.")
         if not source:
              errors.append("Veuillez renseigner un propriétaire  pour cette image.")
+             """
         if not tag:
-            errors.append("Veuillez renseigner une mot-clef pour cette image.")
+            errors.append("Veuillez renseigner une mot-clef pour cette image.")"""
         if not downloadlink:
              errors.append("Aucun lien de téléchargement pour cette image, si aucun lien, indiquer : n.l.")             
     
@@ -67,7 +68,8 @@ class Image(db.Model):
         nom_photographe=nom_photographe,
         source=source,
         tag=tag,
-        chemin=downloadlink)
+        chemin="<img src='" + downloadlink + "' width=100% >"
+        )
         # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
 
         try:

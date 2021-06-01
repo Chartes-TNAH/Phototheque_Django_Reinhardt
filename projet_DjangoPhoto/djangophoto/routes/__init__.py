@@ -54,13 +54,6 @@ def edit_image():
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     # # # VALEURS RENSEIGNÉES PAR L'UTILISATEUR
-    titre = request.form.get("titre", None)
-    description = request.form.get("desc", None)
-    orientation = request.form.get("sens", None)
-    date = request.form.get("date", None)
-    nom_photographe = request.form.get("author", None)
-    source = request.form.get("source", None)
-    tag = request.form.get("clef", None)
 
     # # # LISTE DE TOUS LES LIENS VERS LES IMAGES DÉJÀ EXISTANTES SUR LE SERVEUR
     img_links = Image.query.with_entities(Image.chemin)
@@ -82,10 +75,22 @@ def upload():
                     # Si le document est déjà présent sur le serveur
                     return redirect(url_for('oups'))
                 else:
-                    new_image = Image.add_img(titre, description, orientation, date, nom_photographe, source, tag, downloadlink)
+                    status, new_image = Image.add_img(
+                        titre = request.form.get("titre", None),
+                        description = request.form.get("description", None),
+                        orientation = request.form.get("sens", None),
+                        date = request.form.get("date", None),
+                        nom_photographe = request.form.get("author", None),
+                        source = request.form.get("source", None),
+                        tag = request.form.get("clef", None),
+                        downloadlink = downloadlink
+                        )
                     # on ajoute l'image à la BDD
-
-                    return redirect(url_for('upped'))
+                    if status is True:
+                        return redirect(url_for('upped'))
+                    else:
+                        flash("L'ajout d'une nouvelle oeuvre a échoué pour les raisons suivantes : " + ", ".join(new_image), "error")
+                        return render_template('pages/edit_image.html')
             else:
                 flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
         else:
