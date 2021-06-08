@@ -5,6 +5,7 @@ from flask import render_template, request, flash, redirect
 #On importe la variable app qui instancie l'application
 from djangophoto.app import app, login
 #On déclare les tables de la BDD
+from djangophoto.modeles.donnees import Orientation_img
 from djangophoto.modeles.donnees import Image
 from djangophoto.modeles.utilisateurs import User
 from flask_login import login_user, current_user, logout_user
@@ -78,7 +79,7 @@ def upload():
                     status, new_image = Image.add_img(
                         titre = request.form.get("titre", None),
                         description = request.form.get("description", None),
-                        orientation = request.form.get("sens", None),
+                        sens = request.form.get("sens", None),
                         date = request.form.get("date", None),
                         nom_photographe = request.form.get("author", None),
                         source = request.form.get("source", None),

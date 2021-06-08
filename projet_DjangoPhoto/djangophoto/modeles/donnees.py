@@ -6,6 +6,10 @@ from .. app import db
 #On importe l'objet SQLAlchemy du module flask_sqlachemy
 
 #On crée une classe par table ; une ligne par colonne
+class Orientation_img(db.Model):
+    orientation_type = db.Column(db.String(64), unique=True, nullable=False, primary_key=True)
+
+#On crée une classe par table ; une ligne par colonne
 class Image(db.Model):
     __tablename__="image"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -16,7 +20,7 @@ class Image(db.Model):
     description = db.Column(db.String(64))
     source = db.Column(db.String(64))
     tag = db.Column(db.String(64))
-    orientation = db.Column(db.String(64))
+    orientation = db.Column(db.String(64), db.ForeignKey('orientation_img.orientation_type'), nullable=False)
     image_valid = db.Column(db.String(2))
     
     def get_id(self):
@@ -24,7 +28,7 @@ class Image(db.Model):
 
 
     @staticmethod
-    def add_img(titre, description, orientation, date, nom_photographe, source, tag, downloadlink):
+    def add_img(titre, description, sens, date, nom_photographe, source, tag, downloadlink):
         """
         Fonction qui permet d'ajouter un nouveau document dans la BDD
         :param titre: titre donné à l'image (str)
@@ -43,7 +47,7 @@ class Image(db.Model):
             errors.append("Veuillez renseigner un titre pour cette image.")
         if not description:
             errors.append("Veuillez renseigner une description pour cette image.")
-        if not orientation:
+        if not sens:
             errors.append("Veuillez renseigner une orientation pour cette image.")
         if not date:
             errors.append("Veuillez renseigner une date pour cette image, si elle est inconnue, indiquer: n.d.")
@@ -63,7 +67,7 @@ class Image(db.Model):
         new_image = Image(
         titre=titre,
         description=description,
-        orientation=orientation,
+        orientation=sens,
         date=date,
         nom_photographe=nom_photographe,
         source=source,

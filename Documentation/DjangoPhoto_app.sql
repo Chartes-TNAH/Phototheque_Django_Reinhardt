@@ -50,8 +50,8 @@ VALUES
 ("autre")
 ;
 
-CREATE TABLE IF NOT EXISTS orientation (
-	orientation_type TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS orientation_img (
+	orientation_type TEXT NOT NULL PRIMARY KEY
 );
 
 INSERT INTO `orientation` (
