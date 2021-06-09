@@ -6,6 +6,7 @@ from flask import render_template, request, flash, redirect
 from djangophoto.app import app, login
 #On déclare les tables de la BDD
 from djangophoto.modeles.donnees import Orientation_img
+from djangophoto.modeles.donnees import Tag_img
 from djangophoto.modeles.donnees import Image
 from djangophoto.modeles.utilisateurs import User
 from flask_login import login_user, current_user, logout_user
@@ -51,7 +52,8 @@ def biographie():
 @app.route("/Importer")
 def edit_image():
     orientation_img = Orientation_img.query.all()
-    return render_template("pages/edit_image.html", orientation_img=orientation_img) 
+    tag_img = Tag_img.query.all()
+    return render_template("pages/edit_image.html", orientation_img=orientation_img, tag_img=tag_img) 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -84,7 +86,7 @@ def upload():
                         date = request.form.get("date", None),
                         nom_photographe = request.form.get("author", None),
                         source = request.form.get("source", None),
-                        tag = request.form.get("clef", None),
+                        clef = request.form.get("clef", None),
                         downloadlink = downloadlink
                         )
                     # on ajoute l'image à la BDD

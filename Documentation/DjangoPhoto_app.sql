@@ -36,12 +36,12 @@ CREATE TABLE IF NOT EXISTS Image (
 	image_valid	TINYTEXT DEFAULT 'y'
 );
 
-CREATE TABLE IF NOT EXISTS tag (
-	tag_nom TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS tag_img (
+	tag_mot TEXT NOT NULL PRIMARY KEY
 );
 
 INSERT INTO `tag` (
-	`tag_nom`) 
+	`tag_mot`) 
 VALUES 
 ("quintette"),
 ("musicien"),

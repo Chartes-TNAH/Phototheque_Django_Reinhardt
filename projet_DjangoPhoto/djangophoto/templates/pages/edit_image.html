@@ -46,8 +46,8 @@
     <div class="col-sm-10">
       <select class="form-control" name="clef">
             <option value="all">Sélectionner un mot-clef</option>
-            {% for clef in tag %}
-            <option value="{{clef.tag_nom}}">{{clef.tag_nom}}</option>
+            {% for clef in tag_img %}
+            <option value="{{clef.tag_mot}}">{{clef.tag_mot}}</option>
             {% endfor %}
         </select>
     </div>

@@ -9,6 +9,9 @@ from .. app import db
 class Orientation_img(db.Model):
     orientation_type = db.Column(db.String(64), unique=True, nullable=False, primary_key=True)
 
+class Tag_img(db.Model):
+    tag_mot = db.Column(db.String(64), unique=True, nullable=False, primary_key=True)
+
 #On crée une classe par table ; une ligne par colonne
 class Image(db.Model):
     __tablename__="image"
@@ -19,7 +22,7 @@ class Image(db.Model):
     nom_photographe = db.Column(db.String(64))
     description = db.Column(db.String(64))
     source = db.Column(db.String(64))
-    tag = db.Column(db.String(64))
+    tag = db.Column(db.String(64), db.ForeignKey('tag_img.tag_mot'), nullable=False)
     orientation = db.Column(db.String(64), db.ForeignKey('orientation_img.orientation_type'), nullable=False)
     image_valid = db.Column(db.String(2))
     
@@ -28,7 +31,7 @@ class Image(db.Model):
 
 
     @staticmethod
-    def add_img(titre, description, sens, date, nom_photographe, source, tag, downloadlink):
+    def add_img(titre, description, sens, date, nom_photographe, source, clef, downloadlink):
         """
         Fonction qui permet d'ajouter un nouveau document dans la BDD
         :param titre: titre donné à l'image (str)
@@ -55,9 +58,8 @@ class Image(db.Model):
             errors.append("Veuillez renseigner un nom du photographe pour cette image, si le nom est inconnu, indiquer: n.n.")
         if not source:
              errors.append("Veuillez renseigner un propriétaire  pour cette image.")
-             """
-        if not tag:
-            errors.append("Veuillez renseigner une mot-clef pour cette image.")"""
+        if not clef:
+            errors.append("Veuillez renseigner une mot-clef pour cette image.")
         if not downloadlink:
              errors.append("Aucun lien de téléchargement pour cette image, si aucun lien, indiquer : n.l.")             
     
@@ -71,7 +73,7 @@ class Image(db.Model):
         date=date,
         nom_photographe=nom_photographe,
         source=source,
-        tag=tag,
+        tag=clef,
         chemin="<img src='" + downloadlink + "' width=100% >"
         )
         # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
