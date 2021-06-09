@@ -50,7 +50,8 @@ def biographie():
 #page de l'ajout d'image
 @app.route("/Importer")
 def edit_image():
-		return render_template("pages/edit_image.html") 
+    orientation_img = Orientation_img.query.all()
+    return render_template("pages/edit_image.html", orientation_img=orientation_img) 
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
