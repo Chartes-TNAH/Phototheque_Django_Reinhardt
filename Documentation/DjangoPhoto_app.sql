@@ -33,7 +33,8 @@ CREATE TABLE IF NOT EXISTS Image (
 	source TEXT NOT NULL,
 	tag TEXT NOT NULL,
 	orientation TEXT NOT NULL,
-	image_valid	TINYTEXT DEFAULT 'y'
+	image_valid	TINYTEXT DEFAULT 'y',
+	img_user_id INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS tag_img (

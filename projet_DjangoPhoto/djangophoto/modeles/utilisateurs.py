@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     user_login = db.Column(db.String(45), nullable=False)
     user_email = db.Column(db.Text, nullable=False)
     user_motdepasse = db.Column(db.String(100), nullable=False)
+    user_type = db.Column(db.Text)
     
 
     @staticmethod

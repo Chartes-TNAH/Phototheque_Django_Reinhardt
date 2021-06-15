@@ -28,4 +28,4 @@ def lenDesc(desc):
 
 def extension_ok(nom_fichier=""):
     """ Renvoie True si le fichier possède une extension valide. """
-    return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('pdf', 'jpg', 'jpeg', 'gif', 'bmp', 'png')
+    return '.' in nom_fichier and nom_fichier.rsplit('.', 1)[1] in ('pdf', 'jpg', 'JPG', 'jpeg', 'gif', 'bmp', 'png')

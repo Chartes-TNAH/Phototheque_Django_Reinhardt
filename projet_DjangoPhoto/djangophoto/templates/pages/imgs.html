@@ -8,6 +8,15 @@
 {% block contenu %}
 
     {% if img %}
+        {% if droit_modif %}
+            <li class="form-inline my-4">
+                <div class="col-sm-10">
+                    <a class="nav-link" href="{{url_for('update_img')}}"><button type="button" class="btn btn-light" style="width: 100px; font-weight:bold;">Modifier</button></a>
+
+                    <a class="nav-link" href="{{url_for('delate_img')}}" onclick="return confirm('Confirmer la suppression');"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Supprimer</button></a>
+                 </div>
+            </li>
+        {% endif %}
 
 <!-- On pose une condition : si les éléments demandés existent dans la BDD, alors ce qui est contenu dans
  if img va s'exécuter. Si ce n'est pas le cas le else est exécuté et renvoie un message d'avertissement -->

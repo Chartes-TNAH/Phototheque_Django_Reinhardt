@@ -1,4 +1,5 @@
 from flask import url_for
+from flask_login import login_user, current_user, logout_user
 
 from sqlalchemy import Column, Integer, String
 
@@ -25,6 +26,7 @@ class Image(db.Model):
     tag = db.Column(db.String(64), db.ForeignKey('tag_img.tag_mot'), nullable=False)
     orientation = db.Column(db.String(64), db.ForeignKey('orientation_img.orientation_type'), nullable=False)
     image_valid = db.Column(db.String(2))
+    img_user_id = db.Column(db.Integer)
     
     def get_id(self):
         return(self.id)
@@ -74,7 +76,8 @@ class Image(db.Model):
         nom_photographe=nom_photographe,
         source=source,
         tag=clef,
-        chemin="<img src='" + downloadlink + "' width=100% >"
+        chemin="<img src='" + downloadlink + "' width=100% >",
+        img_user_id=current_user.user_id
         )
         # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
 

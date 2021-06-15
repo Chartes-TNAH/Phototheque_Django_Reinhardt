@@ -100,7 +100,7 @@ def upload():
         else:
             flash(u'Vous avez oublié le fichier !', 'error')
 
-    return render_template('pages/edit_image.html', form=form)
+    return render_template('pages/edit_image.html')
 
 
 @app.route("/upped")
@@ -127,11 +127,32 @@ def oups():
 def a_propos():
 		return render_template("pages/a_propos.html")
 
+#page de la modification des légendes de l'image
+@app.route("/update_img")
+def update_img(id):
+    unique_img = Image.query.get(id)
+
+    return render_template("pages/update_image.html", img = unique_img, id=id)
+
+
+#page de la suppression de l'image
+@app.route("/delate_img")
+def delate_img(id):
+    unique_img = Image.query.get(id)
+
+    return render_template("pages/delate_image.html", img = unique_img, id=id)
+
 # Définition de la route vers chaque image grâce à leur identifiant (int)
 @app.route("/Imgs/<int:id>")
 def img(id):
     unique_img = Image.query.get(id)
-    return render_template("pages/imgs.html", img = unique_img, id=id)
+    droit_modif = False
+
+    if ((current_user.user_type ==  'admin')
+    or (Image.img_user_id == current_user.user_id)
+    ):
+        droit_modif = True
+    return render_template("pages/imgs.html", img = unique_img, id=id, droit_modif=droit_modif)
 
 #On définit la route pour la recherche plein-texte
 @app.route("/recherche")
