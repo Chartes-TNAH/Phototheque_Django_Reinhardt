@@ -136,11 +136,35 @@ def update_img(id):
 
 
 #page de la suppression de l'image
-@app.route("/delate_img")
-def delate_img(id):
-    unique_img = Image.query.get(id)
+@app.route("/delete_img", methods=["POST", "GET"])
+def delete_img(id):
+    """ 
+    Route pour supprimer une image et ses données dans la base
+    :param _id : ID de l'image
+    :return: redirection ou template delete-img.html
+    :rtype: template
+    """
+    deleteImg = Image.query.get(id)
 
-    return render_template("pages/delate_image.html", img = unique_img, id=id)
+    if request.method == "POST":
+        status = Image.delete_img(
+        id=deleteImg.id
+    )
+
+        if status is True:
+            flash("Suppression réussie !", "success")
+            cheminImages = Image.query.all()
+            return render_template("pages/galerie.html", Images=cheminImages)
+
+        else:
+            flash("La suppresion a échoué...", "error")
+            cheminImages = Image.query.all()
+            return render_template("pages/galerie.html", Images=cheminImages)
+    else:
+        cheminImages = Image.query.all()
+        return render_template("pages/galerie.html", Images=cheminImages)
+
+
 
 # Définition de la route vers chaque image grâce à leur identifiant (int)
 @app.route("/Imgs/<int:id>")

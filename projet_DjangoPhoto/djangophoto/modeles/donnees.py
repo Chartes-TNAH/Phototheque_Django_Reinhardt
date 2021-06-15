@@ -90,4 +90,22 @@ class Image(db.Model):
         except Exception as erreur:
             return False, [str(erreur)]
 
+    @staticmethod
+    def delete_img(id):
+        """
+        Fonction qui supprime la notice d'une image, ses données et le fichier image
+        :param id: id de l'image (int)
+        :return: Booléen
+        """
+        deleteImg = Image.query.get(id)
+        nom_fichier = deleteImg.chemin [10:-14]
+
+        try:
+            db.session.delete(deleteImg)
+            db.session.commit()
+            return True
+
+        except Exception as erreur:
+            return False, [str(erreur)]
+
 
