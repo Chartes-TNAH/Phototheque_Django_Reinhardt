@@ -1,5 +1,7 @@
-from flask import url_for
+from flask import url_for, flash
 from flask_login import login_user, current_user, logout_user
+from djangophoto.constantes import DOSSIER_UPLOAD
+import os
 
 from sqlalchemy import Column, Integer, String
 
@@ -98,7 +100,12 @@ class Image(db.Model):
         :return: Booléen
         """
         deleteImg = Image.query.get(id)
-        nom_fichier = deleteImg.chemin [10:-14]
+        nom_fichier = DOSSIER_UPLOAD + deleteImg.chemin [21:-14]
+
+        if os.path.exists(nom_fichier):
+            os.remove(nom_fichier)
+        else:
+            flash("Fichier inexistant : " + str(nom_fichier))
 
         try:
             db.session.delete(deleteImg)
@@ -107,5 +114,6 @@ class Image(db.Model):
 
         except Exception as erreur:
             return False, [str(erreur)]
+            
 
 

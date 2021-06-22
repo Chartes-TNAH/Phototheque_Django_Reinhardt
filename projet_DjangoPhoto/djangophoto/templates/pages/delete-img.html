@@ -13,7 +13,7 @@
                 <div class="col-sm-10">
                     <a class="nav-link" href="{{url_for('update_img')}}"><button type="button" class="btn btn-light" style="width: 100px; font-weight:bold;">Modifier</button></a>
 
-                    <a class="nav-link" href="{{url_for('delete_img', id=img.id)}}" onclick="return confirm('Confirmer la suppression');"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Supprimer</button></a>
+                    <a class="nav-link" href="{{url_for('delete-img')}}, id={{img.id}}" onclick="return confirm('Confirmer la suppression');"><button type="button" class="btn btn-light" style="width: 120px; font-weight:bold;">Supprimer</button></a>
                  </div>
             </li>
         {% endif %}

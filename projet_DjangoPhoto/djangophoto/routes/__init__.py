@@ -63,7 +63,8 @@ def upload():
     img_links = Image.query.with_entities(Image.chemin)
     img_links = [link[0] for link in img_links.all()]
 
-
+    orientation_img = Orientation_img.query.all()
+    tag_img = Tag_img.query.all()
     # # # IMPORT DE FICHIER
     if request.method == 'POST':
         f = request.files['file']
@@ -94,13 +95,14 @@ def upload():
                         return redirect(url_for('upped'))
                     else:
                         flash("L'ajout d'une nouvelle oeuvre a échoué pour les raisons suivantes : " + ", ".join(new_image), "error")
-                        return render_template('pages/edit_image.html')
+                        return render_template("pages/edit_image.html", orientation_img=orientation_img, tag_img=tag_img)
             else:
                 flash(u'Ce fichier ne porte pas une extension autorisée !', 'error')
         else:
             flash(u'Vous avez oublié le fichier !', 'error')
 
-    return render_template('pages/edit_image.html')
+    return render_template("pages/edit_image.html", orientation_img=orientation_img, tag_img=tag_img) 
+
 
 
 @app.route("/upped")
@@ -136,7 +138,7 @@ def update_img(id):
 
 
 #page de la suppression de l'image
-@app.route("/delete_img", methods=["POST", "GET"])
+@app.route("/delete_img/<int:id>")
 def delete_img(id):
     """ 
     Route pour supprimer une image et ses données dans la base
@@ -144,26 +146,24 @@ def delete_img(id):
     :return: redirection ou template delete-img.html
     :rtype: template
     """
+    flash("je suis la route delete_img")
     deleteImg = Image.query.get(id)
+    
+    
+    status = Image.delete_img(
+    id=deleteImg.id
+        )
 
-    if request.method == "POST":
-        status = Image.delete_img(
-        id=deleteImg.id
-    )
-
-        if status is True:
-            flash("Suppression réussie !", "success")
-            cheminImages = Image.query.all()
-            return render_template("pages/galerie.html", Images=cheminImages)
-
-        else:
-            flash("La suppresion a échoué...", "error")
-            cheminImages = Image.query.all()
-            return render_template("pages/galerie.html", Images=cheminImages)
-    else:
+    if status is True:        
         cheminImages = Image.query.all()
         return render_template("pages/galerie.html", Images=cheminImages)
 
+    else:
+        flash("La suppresion a échoué...", "error")
+        cheminImages = Image.query.all()
+        return render_template("pages/galerie.html", Images=cheminImages)
+
+    
 
 
 # Définition de la route vers chaque image grâce à leur identifiant (int)
@@ -171,12 +171,14 @@ def delete_img(id):
 def img(id):
     unique_img = Image.query.get(id)
     droit_modif = False
+    if current_user.is_authenticated is True:
 
-    if ((current_user.user_type ==  'admin')
-    or (Image.img_user_id == current_user.user_id)
-    ):
-        droit_modif = True
+        if ((current_user.user_type == 'admin')
+            or (Image.img_user_id == current_user.user_id)
+            ):
+            droit_modif = True
     return render_template("pages/imgs.html", img = unique_img, id=id, droit_modif=droit_modif)
+
 
 #On définit la route pour la recherche plein-texte
 @app.route("/recherche")
