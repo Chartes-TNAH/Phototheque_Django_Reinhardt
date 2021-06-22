@@ -130,11 +130,48 @@ def a_propos():
 		return render_template("pages/a_propos.html")
 
 #page de la modification des légendes de l'image
-@app.route("/update_img")
+@app.route("/update_img/<int:id>")
 def update_img(id):
+    """ 
+    Route permettant de modifier les données d'une image
+    :param id: ID de l'image
+    :return: redirection ou template Imgs.html
+    :rtype: template
+    """
+    orientation_img = Orientation_img.query.all()
+    tag_img = Tag_img.query.all()
+
+    if request.method == "GET":
+        updateImg = Image.query.get(id)
+        
+        return render_template("pages/update-image.html", updateImg=updateImg, orientation_img=orientation_img, tag_img=tag_img)    
+
+    else:
+        status, data = Image.update_img(
+            id=id,
+            titre = request.form.get("titre", None),
+            description = request.form.get("description", None),
+            sens = request.form.get("sens", None),
+            date = request.form.get("date", None),
+            nom_photographe = request.form.get("author", None),
+            source = request.form.get("source", None),
+            clef = request.form.get("clef", None)
+            )
+        unique_img = Image.query.get(id)
+        droit_modif = True
+
+        if status is True:
+            flash("Modification réussie !", "success")
+            return render_template("pages/imgs.html", img = unique_img, id=id, droit_modif=droit_modif, orientation_img=orientation_img, tag_img=tag_img)
+        else:
+            flash("Les erreurs suivantes ont été rencontrées : " + ", ".join(data), "danger")
+            updateImg = Image.query.get(id)
+            return render_template("pages/update-image.html", updateImg=updateImg, orientation_img=orientation_img, tag_img=tag_img)
+
+
     unique_img = Image.query.get(id)
 
-    return render_template("pages/update_image.html", img = unique_img, id=id)
+    return render_template("pages/update-image.html", img = unique_img, id=id, orientation_img=orientation_img, tag_img=tag_img)
 
 
 #page de la suppression de l'image
@@ -143,10 +180,9 @@ def delete_img(id):
     """ 
     Route pour supprimer une image et ses données dans la base
     :param _id : ID de l'image
-    :return: redirection ou template delete-img.html
+    :return: redirection ou template galerie.html
     :rtype: template
     """
-    flash("je suis la route delete_img")
     deleteImg = Image.query.get(id)
     
     

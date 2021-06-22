@@ -117,3 +117,67 @@ class Image(db.Model):
             
 
 
+    @staticmethod
+    def update_img(id, titre, description, sens, date, nom_photographe, source, clef):
+        """
+        Fonction qui permet de modifier la description de l'image dans la BDD
+        :param id: id de l'image (str)
+        :param titre: titre donné à l'image (str)
+        :param description: courte présentation sur l'image (str)
+        :param orientation: "portait", "paysage" (str)
+        :param date: date de la photographie (str)
+        :param nom_photographe: nom du photographe (str)
+        :param source: Nom du propriétaire de l'image (str)
+        :param tag: liste des mots-clefs (str)
+        :return:
+        """
+        
+        errors = []
+        if not titre:
+            errors.append("Veuillez renseigner un titre pour cette image.")
+        if not description:
+            errors.append("Veuillez renseigner une description pour cette image.")
+        if not sens:
+            errors.append("Veuillez renseigner une orientation pour cette image.")
+        if not date:
+            errors.append("Veuillez renseigner une date pour cette image, si elle est inconnue, indiquer: n.d.")
+        if not nom_photographe:
+            errors.append("Veuillez renseigner un nom du photographe pour cette image, si le nom est inconnu, indiquer: n.n.")
+        if not source:
+             errors.append("Veuillez renseigner un propriétaire  pour cette image.")
+        if not clef:
+            errors.append("Veuillez renseigner une mot-clef pour cette image.")
+
+        if len(errors) > 0:
+            return False, errors
+
+        update_img = Image.query.get(id)    
+
+        if update_img.titre == titre \
+           and update_img.description == description \
+           and update_img.date == date \
+           and update_img.sens == sens \
+           and update_img.nom_photographe == nom_photographe \
+           and update_img.source == source \
+           and update_img.clef == clef:
+           errors.append("Aucune modification n'a été réalisée")
+
+        if len(errors) > 0:
+            return False, errors
+        
+        else:
+            update_img.titre=titre
+            update_img.description=description
+            update_img.date=date
+            update_img.sens=sens
+            update_img.nom_photographe=nom_photographe
+            update_img.source=source
+            update_img.clef=clef
+
+        try:
+            db.session.add(update_img)
+            db.session.commit()
+            return True, update_img
+
+        except Exception as erreur:
+            return False, [str(erreur)]
