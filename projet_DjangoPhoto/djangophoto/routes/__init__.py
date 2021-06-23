@@ -92,7 +92,9 @@ def upload():
                         )
                     # on ajoute l'image à la BDD
                     if status is True:
-                        return redirect(url_for('upped'))
+                        flash("Votre image a bien été ajoutée à la base de donnée ! Merci de votre contribution, vous pouvez modifier ses données si nécessaire.", "success")
+                        droit_modif = True
+                        return render_template("pages/imgs.html", img = new_image, id=new_image.id, droit_modif=droit_modif, orientation_img=orientation_img, tag_img=tag_img)
                     else:
                         flash("L'ajout d'une nouvelle oeuvre a échoué pour les raisons suivantes : " + ", ".join(new_image), "error")
                         return render_template("pages/edit_image.html", orientation_img=orientation_img, tag_img=tag_img)
@@ -110,11 +112,16 @@ def upped():
     """
     Route pour la page à afficher après avoir importé un nouvelle image dans la BDD
 
+    
+    unique_img = Image.query.get(id)
+    droit_modif = True
+    if status is True:
+        flash("Modification réussie !", "success")
+        return render_template("pages/imgs.html", img = unique_img, id=id, droit_modif=droit_modif, orientation_img=orientation_img, tag_img=tag_img)
     """
-
     return render_template("pages/upped.html")
 
-@app.route("/oups")
+@app.route("/oups/")
 def oups():
     """
     Route pour la page à afficher si le fichier à importer est déjà sur le serveur
@@ -130,7 +137,7 @@ def a_propos():
 		return render_template("pages/a_propos.html")
 
 #page de la modification des légendes de l'image
-@app.route("/update_img/<int:id>")
+@app.route("/update_img/<int:id>", methods=["POST", "GET"])
 def update_img(id):
     """ 
     Route permettant de modifier les données d'une image

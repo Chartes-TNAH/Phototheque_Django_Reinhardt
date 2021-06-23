@@ -156,10 +156,10 @@ class Image(db.Model):
         if update_img.titre == titre \
            and update_img.description == description \
            and update_img.date == date \
-           and update_img.sens == sens \
+           and update_img.orientation == sens \
            and update_img.nom_photographe == nom_photographe \
            and update_img.source == source \
-           and update_img.clef == clef:
+           and update_img.tag == clef:
            errors.append("Aucune modification n'a été réalisée")
 
         if len(errors) > 0:
@@ -169,10 +169,10 @@ class Image(db.Model):
             update_img.titre=titre
             update_img.description=description
             update_img.date=date
-            update_img.sens=sens
+            update_img.orientation=sens
             update_img.nom_photographe=nom_photographe
             update_img.source=source
-            update_img.clef=clef
+            update_img.tag=clef
 
         try:
             db.session.add(update_img)
