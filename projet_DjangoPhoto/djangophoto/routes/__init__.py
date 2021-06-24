@@ -22,8 +22,9 @@ from flask import Flask
 #On importe SQLAlchemy ainsi que l'opérateur or_ 
 #qui sert dans la fonction de requête pour la recherche plein texte 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_
-
+from sqlalchemy import or_, text
+from .. app import db
+from datetime import date
 
 #On souhaite avoir 5 résultats par page lors de la recherche
 RESULTATS_PAR_PAGES = 5
@@ -42,6 +43,13 @@ def galerie():
     cheminImages = Image.query.all()
     return render_template("pages/galerie.html", Images=cheminImages)
 #Permet de faire apparaitre l'ensemble des images dans la page Galerie
+
+#page de la liste des contributions
+@app.route("/liste")
+def liste():
+    contribute=db.session.query.from_statement(text("SELECT user_prenom, user_nom, COUNT(*) FROM user, Image WHERE user_id=img_user_id GROUP BY user_id ORDER BY user_nom")).all()
+    flash(contribute)
+    return render_template("pages/liste.html", contribute=contribute)
 
 #page de la biographie de Django Reinhardt
 @app.route("/biographie")
@@ -72,7 +80,6 @@ def upload():
         if f:  # on vérifie qu'un fichier a bien été envoyé
             if extension_ok(f.filename):  # on vérifie que son extension est valide
                 nom = secure_filename(f.filename) # on stocke le nom de fichier dans nom
-                f.save(DOSSIER_UPLOAD + nom) # et on l'enregistre dans le dossier img
                 downloadlink = url_for('static', filename = "img/" + nom)
 
                 # on stocke le lien de stockage sur le serveur du fichier uploadé
@@ -92,6 +99,7 @@ def upload():
                         )
                     # on ajoute l'image à la BDD
                     if status is True:
+                        f.save(DOSSIER_UPLOAD + nom) # on l'enregistre dans le dossier img                        
                         flash("Votre image a bien été ajoutée à la base de donnée ! Merci de votre contribution, vous pouvez modifier ses données si nécessaire.", "success")
                         droit_modif = True
                         return render_template("pages/imgs.html", img = new_image, id=new_image.id, droit_modif=droit_modif, orientation_img=orientation_img, tag_img=tag_img)

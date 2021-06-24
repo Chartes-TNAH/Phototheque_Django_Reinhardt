@@ -2,6 +2,7 @@ from flask import url_for, flash
 from flask_login import login_user, current_user, logout_user
 from djangophoto.constantes import DOSSIER_UPLOAD
 import os
+import datetime
 
 from sqlalchemy import Column, Integer, String
 
@@ -14,6 +15,15 @@ class Orientation_img(db.Model):
 
 class Tag_img(db.Model):
     tag_mot = db.Column(db.String(64), unique=True, nullable=False, primary_key=True)
+
+#On crée une classe par table ; une ligne par colonne
+class Authorship(db.Model):
+    __tablename__ = "authorship"
+    authorship_id = db.Column(db.Integer, nullable=True, primary_key=True, autoincrement=True)
+    authorship_user_id = db.Column(db.Integer, db.ForeignKey(user.user_id))
+    authorship_image_id = db.Column(db.Integer, db.ForeignKey(image.id))
+    authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
 
 #On crée une classe par table ; une ligne par colonne
 class Image(db.Model):
@@ -81,11 +91,17 @@ class Image(db.Model):
         chemin="<img src='" + downloadlink + "' width=100% >",
         img_user_id=current_user.user_id
         )
+
         # on ajoute une nouvelle entrée dans la table document avec les champs correspondant aux paramètres du modèle
 
         try:
             # On essaie d'ajouter une image à la BDD
             db.session.add(new_image)
+            new_authorship=Authorship(
+            authorship_user_id=current_user.user_id,
+            auhtorship_image_id=new_image.id
+            )
+            db.session.add(new_authorship)
             db.session.commit()
             return True, new_image
             
