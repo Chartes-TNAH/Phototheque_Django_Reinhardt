@@ -7,6 +7,7 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS `user` (
 	`user_id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`user_nom`	TINYTEXT NOT NULL,
+	`user_prenom`	TINYTEXT  NOT NULL,
 	`user_login`	VARCHAR ( 45 ) NOT NULL,
 	`user_email`	TINYTEXT NOT NULL,
 	`user_motdepasse`	VARCHAR ( 100 ) NOT NULL,

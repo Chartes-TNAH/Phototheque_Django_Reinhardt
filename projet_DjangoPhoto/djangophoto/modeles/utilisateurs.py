@@ -10,6 +10,7 @@ class User(UserMixin, db.Model):
     __tablename__ = "user"
     user_id = db.Column(db.Integer, unique=True, nullable=False, primary_key=True, autoincrement=True)
     user_nom = db.Column(db.Text, nullable=False)
+    user_prenom = db.Column(db.Text, nullable=False)
     user_login = db.Column(db.String(45), nullable=False)
     user_email = db.Column(db.Text, nullable=False)
     user_motdepasse = db.Column(db.String(100), nullable=False)
@@ -31,7 +32,7 @@ class User(UserMixin, db.Model):
         return None
 
     @staticmethod
-    def creer(login, email, nom, motdepasse):
+    def creer(login, email, nom, prenom, motdepasse):
         """ Crée un compte utilisateur-rice. Retourne un tuple (booléen, User ou liste).
         Si il y a une erreur, la fonction renvoie False suivi d'une liste d'erreur
         Sinon, elle renvoie True suivi de la donnée enregistrée
@@ -39,6 +40,7 @@ class User(UserMixin, db.Model):
         :param login: Login de l'utilisateur-rice
         :param email: Email de l'utilisateur-rice
         :param nom: Nom de l'utilisateur-rice
+        :param prenom: Nom de l'utilisateur-rice
         :param motdepasse: Mot de passe de l'utilisateur-rice (Minimum 6 caractères)
 
         """
@@ -49,6 +51,8 @@ class User(UserMixin, db.Model):
             erreurs.append("L'email fourni est vide")
         if not nom:
             erreurs.append("Le nom fourni est vide")
+        if not prenom:
+            erreurs.append("Le prénom fourni est vide")            
         if not motdepasse or len(motdepasse) < 6:
             erreurs.append("Le mot de passe fourni est vide ou trop court")
 
@@ -66,6 +70,7 @@ class User(UserMixin, db.Model):
         # On crée un utilisateur
         utilisateur = User(
             user_nom=nom,
+            user_prenom=prenom,
             user_login=login,
             user_email=email,
             user_motdepasse=generate_password_hash(motdepasse)

@@ -270,6 +270,7 @@ def inscription():
             login=request.form.get("login", None),
             email=request.form.get("email", None),
             nom=request.form.get("nom", None),
+            prenom=request.form.get("prenom", None),
             motdepasse=request.form.get("motdepasse", None)
         )
         if statut is True:
