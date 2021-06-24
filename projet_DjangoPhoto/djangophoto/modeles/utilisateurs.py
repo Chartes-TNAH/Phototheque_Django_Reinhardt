@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     user_login = db.Column(db.String(45), nullable=False)
     user_email = db.Column(db.Text, nullable=False)
     user_motdepasse = db.Column(db.String(100), nullable=False)
-    user_type = db.Column(db.Text)
+    user_type = db.Column(db.Text, nullable=False)
     
 
     @staticmethod
@@ -73,7 +73,8 @@ class User(UserMixin, db.Model):
             user_prenom=prenom,
             user_login=login,
             user_email=email,
-            user_motdepasse=generate_password_hash(motdepasse)
+            user_motdepasse=generate_password_hash(motdepasse),
+            user_type="user"
         )
 
         try:

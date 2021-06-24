@@ -35,7 +35,7 @@ def accueil():
         return render_template("pages/accueil.html")
 
 #page Galerie
-@app.route("/Galerie")
+@app.route("/galerie")
 def galerie():
  #   cheminImages = Image.query.filter(Image.image_valid=="y").all
  #   développement futur pour la validation des images par l'administrateur.()
@@ -44,12 +44,12 @@ def galerie():
 #Permet de faire apparaitre l'ensemble des images dans la page Galerie
 
 #page de la biographie de Django Reinhardt
-@app.route("/Biographie")
+@app.route("/biographie")
 def biographie():
 		return render_template("pages/biographie.html") 
 		
 #page de l'ajout d'image
-@app.route("/Importer")
+@app.route("/importer")
 def edit_image():
     orientation_img = Orientation_img.query.all()
     tag_img = Tag_img.query.all()
@@ -132,7 +132,7 @@ def oups():
 
 
 #page à propos
-@app.route("/A_propos")
+@app.route("/a_propos")
 def a_propos():
 		return render_template("pages/a_propos.html")
 
@@ -210,7 +210,7 @@ def delete_img(id):
 
 
 # Définition de la route vers chaque image grâce à leur identifiant (int)
-@app.route("/Imgs/<int:id>")
+@app.route("/imgs/<int:id>")
 def img(id):
     unique_img = Image.query.get(id)
     droit_modif = False
@@ -259,7 +259,7 @@ def recherche():
     # On retourne la page recherhce.html, et on indique à quoi correspondent les variables resultats, titre et keyword,
     # qui seront appelées ensuite au sein des pages html
 
-@app.route("/Inscription", methods=["GET", "POST"])
+@app.route("/inscription", methods=["GET", "POST"])
 def inscription():
 	   
     #Route gérant les inscriptions
