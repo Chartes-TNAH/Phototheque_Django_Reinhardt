@@ -3,7 +3,7 @@
 
 <!--Cette page affiche la liste des contributions-->
 
-<h1>Liste des contributions à la photothèque Django Reinhardt</h1>
+<h1>Liste des contributions dans la photothèque Django Reinhardt</h1>
 
 <h4 style="text-align: center;">x personnes contribuent actuellement à la photothèque</h4>
 
@@ -13,15 +13,16 @@
 <div class="biog"><div class="col-12">
 {% for contr in contribute %}
 	<div>
-  		<div class="col-12">{{contr.prenom}} {{contr.nom}} {{contr.COUNT}} 
-  			<a href="{{url_for('pages/galerie_contribute.html', contr=contr.user_id, nombre=contr.COUNT)}}">Afficher les contributions</a>
+  		<div class="col-12">{{contr.user_prenom}} {{contr.user_nom}} {{contr.COUNT}} 
+  			<a href="{{url_for('galerie_contribute')}}">Afficher les contributions</a>
   		</div>
-  		<!-- 	<div class="card-body">
-    			<p class="card-text"><a href="{{url_for('img', id=cI.id)}}">{{cI.titre}}</a></p>
-  			</div>-->
 	</div>
 {% endfor %}
 </div>
 {%endblock contenu%}
 
 <!-- Le url_for('img', id=cI.id) permet de renvoyer vers la page individuelle de chaque image lorsque l'on clique sur le lien -->
+<!-- 	<div class="card-body">
+  			, contr=contr.user_id, nombre=contr.COUNT
+    			<p class="card-text"><a href="{{url_for('img', id=cI.id)}}">{{cI.titre}}</a></p>
+  			</div>-->

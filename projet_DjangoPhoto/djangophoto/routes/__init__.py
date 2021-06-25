@@ -8,6 +8,7 @@ from djangophoto.app import app, login
 from djangophoto.modeles.donnees import Orientation_img
 from djangophoto.modeles.donnees import Tag_img
 from djangophoto.modeles.donnees import Image
+from djangophoto.modeles.donnees import Authorship
 from djangophoto.modeles.utilisateurs import User
 from flask_login import login_user, current_user, logout_user
 from djangophoto.utils import lenTitle, lenDesc, extension_ok
@@ -22,7 +23,7 @@ from flask import Flask
 #On importe SQLAlchemy ainsi que l'opérateur or_ 
 #qui sert dans la fonction de requête pour la recherche plein texte 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import or_, text
+from sqlalchemy import or_, text, func
 from .. app import db
 from datetime import date
 
@@ -47,9 +48,21 @@ def galerie():
 #page de la liste des contributions
 @app.route("/liste")
 def liste():
-    contribute=db.session.query.from_statement(text("SELECT user_prenom, user_nom, COUNT(*) FROM user, Image WHERE user_id=img_user_id GROUP BY user_id ORDER BY user_nom")).all()
+    contribute = User.query.group_by(User.user_nom).order_by(User.user_nom).all()
+    for i_liste in contribute:
+        contribute.nombre = Image.query(func.count(id)).filter(Image.img_user_id == liste_nom.user_id)
     flash(contribute)
     return render_template("pages/liste.html", contribute=contribute)
+
+#page Galerie
+@app.route("/galerie_contribute")
+def galerie_contribute():
+ #   cheminImages = Image.query.filter(Image.image_valid=="y").all
+ #   développement futur pour la validation des images par l'administrateur.()
+    cheminImages = Image.query.all()
+    return render_template("pages/galerie_contribute.html", Images=cheminImages)
+#Permet de faire apparaitre l'ensemble des images dans la page Galerie
+
 
 #page de la biographie de Django Reinhardt
 @app.route("/biographie")

@@ -3,7 +3,6 @@
 {% block contenu %}
 
 <h1>Photothèque Django Reinhardt</h1>
-<a class="nav-link" href="{{url_for('liste')}}"><button type="button" class="btn btn-light" style="width: 300px; font-weight:bold;">Liste des contributions</button></a>
 
 <!--Sous-titre de l'application-->
 <div class="container" style="padding-top:1%;">
@@ -12,9 +11,10 @@
     <div class="col-9" style="text-align:center;">
       <h4>Une base de données des photographies de Django Reinhardt indiquant le nom du photographe et sa source !</h4>
     </div>
+    <div class="col-11" style="text-align:center;">
+      <a class="nav-link" href="{{url_for('liste')}}"><button type="button" class="btn btn-light" style="width: 300px; font-weight:bold;">Liste des contributions</button></a>
     </div>
-    <div class="col-2">
-    </div>
+    <div class="col-2"></div>
   </div>
 </div>
 
