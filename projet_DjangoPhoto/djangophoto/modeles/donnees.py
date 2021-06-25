@@ -1,6 +1,7 @@
 from flask import url_for, flash
 from flask_login import login_user, current_user, logout_user
 from djangophoto.constantes import DOSSIER_UPLOAD
+from djangophoto.modeles.utilisateurs import User
 import os
 import datetime
 
@@ -15,14 +16,6 @@ class Orientation_img(db.Model):
 
 class Tag_img(db.Model):
     tag_mot = db.Column(db.String(64), unique=True, nullable=False, primary_key=True)
-
-#On crée une classe par table ; une ligne par colonne
-class Authorship(db.Model):
-    __tablename__ = "authorship"
-    authorship_id = db.Column(db.Integer, nullable=True, primary_key=True, autoincrement=True)
-    authorship_user_id = db.Column(db.Integer, db.ForeignKey(user.user_id))
-    authorship_image_id = db.Column(db.Integer, db.ForeignKey(image.id))
-    authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
 
 #On crée une classe par table ; une ligne par colonne
@@ -97,9 +90,10 @@ class Image(db.Model):
         try:
             # On essaie d'ajouter une image à la BDD
             db.session.add(new_image)
+            db.session.commit()
             new_authorship=Authorship(
             authorship_user_id=current_user.user_id,
-            auhtorship_image_id=new_image.id
+            authorship_image_id=new_image.id
             )
             db.session.add(new_authorship)
             db.session.commit()
@@ -197,3 +191,11 @@ class Image(db.Model):
 
         except Exception as erreur:
             return False, [str(erreur)]
+
+#On crée une classe par table ; une ligne par colonne
+class Authorship(db.Model):
+    __tablename__ = "authorship"
+    authorship_id = db.Column(db.Integer, nullable=True, primary_key=True, autoincrement=True)
+    authorship_user_id = db.Column(db.Integer, db.ForeignKey(User.user_id))
+    authorship_image_id = db.Column(db.Integer, db.ForeignKey(Image.id))
+    authorship_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
