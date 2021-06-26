@@ -24,6 +24,7 @@ from flask import Flask
 #qui sert dans la fonction de requête pour la recherche plein texte 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_, text, func
+# on importe or_, text et func de la librairie sqlalchemy
 from .. app import db
 from datetime import date
 
@@ -49,8 +50,8 @@ def galerie():
 @app.route("/liste")
 def liste():
     contribute = User.query.group_by(User.user_nom).order_by(User.user_nom).all()
-    for i_liste in contribute:
-        contribute.nombre = Image.query(func.count(id)).filter(Image.img_user_id == liste_nom.user_id)
+#    for i_liste in contribute:
+#        contribute.nombre = db.session.query(func.count(Image.id)).filter(Image.img_user_id == contribute.user_id).as_scalar()
     flash(contribute)
     return render_template("pages/liste.html", contribute=contribute)
 
