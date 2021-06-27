@@ -50,18 +50,21 @@ def galerie():
 @app.route("/liste")
 def liste():
     contribute = User.query.group_by(User.user_nom).order_by(User.user_nom).all()
-#    for i_liste in contribute:
-#        contribute.nombre = db.session.query(func.count(Image.id)).filter(Image.img_user_id == contribute.user_id).as_scalar()
-    flash(contribute)
-    return render_template("pages/liste.html", contribute=contribute)
+    nb_contributor=0
+    for i_liste in contribute:
+        i_liste.nombre = db.session.query(func.count(Image.id)).filter(Image.img_user_id == i_liste.user_id).scalar()
+        if i_liste.nombre != 0:
+            nb_contributor = nb_contributor + 1    
+    return render_template("pages/liste.html", contribute=contribute, nb_contributor=nb_contributor)
 
-#page Galerie
+#page galerie_contribute
 @app.route("/galerie_contribute")
-def galerie_contribute():
+def galerie_contribute(user_id, prenom, nom):
+    identification = User.query.filter
  #   cheminImages = Image.query.filter(Image.image_valid=="y").all
  #   développement futur pour la validation des images par l'administrateur.()
-    cheminImages = Image.query.all()
-    return render_template("pages/galerie_contribute.html", Images=cheminImages)
+    cheminImages = Image.query.filter(Image.image_user_id == user_id).all()
+    return render_template("pages/galerie_contribute.html", Images=cheminImages, prenom=prenom, nom=nom)
 #Permet de faire apparaitre l'ensemble des images dans la page Galerie
 
 

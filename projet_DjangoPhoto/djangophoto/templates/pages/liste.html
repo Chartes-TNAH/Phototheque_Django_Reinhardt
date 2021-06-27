@@ -5,20 +5,23 @@
 
 <h1>Liste des contributions dans la photothèque Django Reinhardt</h1>
 
-<h4 style="text-align: center;">x personnes contribuent actuellement à la photothèque</h4>
+<h4 style="text-align: center;">{{nb_contributor}} personnes contribuent actuellement à la photothèque</h4>
 
 
 
 <!-- Grid row -->
 <div class="biog"><div class="col-12">
 {% for contr in contribute %}
+{% if contr.nombre != 0 %}
 	<div>
-  		<div class="col-12">{{contr.user_prenom}} {{contr.user_nom}} {{contr.COUNT}} 
-  			<a href="{{url_for('galerie_contribute')}}">Afficher les contributions</a>
+  		<div class="col-12">{{contr.user_prenom}} {{contr.user_nom}} {{contr.nombre}} contribution(s)
+  			<a href="{{url_for('galerie_contribute', user_id=contr.user_id, prenom=contr.user_prenom, nom=contr.user_nom)}}">Afficher les contributions</a>
   		</div>
 	</div>
+{% endif %}
 {% endfor %}
 </div>
+
 {%endblock contenu%}
 
 <!-- Le url_for('img', id=cI.id) permet de renvoyer vers la page individuelle de chaque image lorsque l'on clique sur le lien -->
