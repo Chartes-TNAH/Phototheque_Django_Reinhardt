@@ -60,12 +60,12 @@ def liste():
 #page galerie_contribute
 @app.route("/galerie_contribute/<int:user_id>")
 def galerie_contribute(user_id):
-    user_contribute = User.query.all()
+    user_contribute = User.query.filter(User.user_id == user_id)
  #   cheminImages = Image.query.filter(Image.image_valid=="y").all
  #   développement futur pour la validation des images par l'administrateur.()
-    cheminImages = Image.query.filter(Image.img_user_id == User.user_id).all()
-    return render_template("pages/galerie_contribute.html", nom=user_contribute)
-#Permet de faire apparaitre l'ensemble des images dans la page Galerie
+    cheminImages = Image.query.filter(Image.img_user_id == user_id).all()
+    return render_template("pages/galerie_contribute.html", Images=cheminImages, user_contribute=user_contribute)
+#Permet de faire apparaitre l'ensemble des images fournies par une personne contributrice (user_id) dans la page Galerie_contribute
 
 
 #page de la biographie de Django Reinhardt

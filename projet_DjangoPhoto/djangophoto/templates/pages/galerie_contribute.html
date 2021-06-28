@@ -9,7 +9,9 @@
   <div class="row">
   	<div class="col-1"></div>
     <div class="col-10" style="text-align:center;">
-	<h4 style="text-align: center;">Liste des photographies fournit par {{nom}} : .</h4>
+    {% for contr in user_contribute %}
+	<h4 style="text-align: center;">Liste des photographies fournies par {{contr.user_prenom}} {{contr.user_nom}} : </h4>
+		{% endfor %}
 	</div>
   </div>
 </div>
@@ -20,7 +22,7 @@
 	<div>
   		<div class="card">{{cI.chemin|safe}}</div>
   			<div class="card-body">
-    			<p class="card-text"><a href="{{url_for('galerie_contribute', nom)}}">{{cI.titre}}</a></p>
+    			<p class="card-text"><a href="{{url_for('img', id=cI.id)}}">{{cI.titre}}</a></p>
   			</div>
 	</div>
 {% endfor %}
