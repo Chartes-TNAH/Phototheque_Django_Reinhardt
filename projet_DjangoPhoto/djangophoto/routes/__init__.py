@@ -58,13 +58,13 @@ def liste():
     return render_template("pages/liste.html", contribute=contribute, nb_contributor=nb_contributor)
 
 #page galerie_contribute
-@app.route("/galerie_contribute")
-def galerie_contribute(user_id, prenom, nom):
-    identification = User.query.filter
+@app.route("/galerie_contribute/<int:user_id>")
+def galerie_contribute(user_id):
+    user_contribute = User.query.all()
  #   cheminImages = Image.query.filter(Image.image_valid=="y").all
  #   développement futur pour la validation des images par l'administrateur.()
-    cheminImages = Image.query.filter(Image.image_user_id == user_id).all()
-    return render_template("pages/galerie_contribute.html", Images=cheminImages, prenom=prenom, nom=nom)
+    cheminImages = Image.query.filter(Image.img_user_id == User.user_id).all()
+    return render_template("pages/galerie_contribute.html", nom=user_contribute)
 #Permet de faire apparaitre l'ensemble des images dans la page Galerie
 
 
