@@ -236,13 +236,14 @@ def delete_img(id):
 
 # Définition de la route vers chaque image grâce à leur identifiant (int)
 @app.route("/imgs/<int:id>")
-def img(id):
+def imgs(id):
     unique_img = Image.query.get(id)
     droit_modif = False
+
     if current_user.is_authenticated is True:
 
         if ((current_user.user_type == 'admin')
-            or (Image.img_user_id == current_user.user_id)
+            or (unique_img.img_user_id == current_user.user_id)
             ):
             droit_modif = True
     return render_template("pages/imgs.html", img = unique_img, id=id, droit_modif=droit_modif)

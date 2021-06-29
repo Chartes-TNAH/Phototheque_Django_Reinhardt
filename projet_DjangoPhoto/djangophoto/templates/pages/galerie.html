@@ -6,15 +6,17 @@
 <h1>Galerie des photographies de Django Reinhardt</h1>
 
 <h4 style="text-align: center;">Le site recense {{Images|length}} photos actuellement</h4>
+<br>
 
 <!-- Grid row -->
 <div class="gallery" id="gallery">
 {% for cI in Images %}
 	<div>
-  		<div class="card">{{cI.chemin|safe}}</div>
+  		<div class="card">{{cI.chemin|safe}}
   			<div class="card-body">
-    			<p class="card-text"><a href="{{url_for('img', id=cI.id)}}">{{cI.titre}}</a></p>
+    			<p class="card-text"><a href="{{url_for('imgs', id=cI.id)}}">{{cI.titre}}</a></p>
   			</div>
+  		</div>
 	</div>	
 {% endfor %}
 </div>

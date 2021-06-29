@@ -12,7 +12,8 @@
     {% for contr in user_contribute %}
 	<h4 style="text-align: center;">Liste des photographies fournies par {{contr.user_prenom}} {{contr.user_nom}} : </h4>
 		{% endfor %}
-	</div>
+		<br>
+		</div>
   </div>
 </div>
 
@@ -20,10 +21,11 @@
 <div class="gallery" id="gallery">
 {% for cI in Images %}
 	<div>
-  		<div class="card">{{cI.chemin|safe}}</div>
+  		<div class="card">{{cI.chemin|safe}}
   			<div class="card-body">
-    			<p class="card-text"><a href="{{url_for('img', id=cI.id)}}">{{cI.titre}}</a></p>
+    			<p class="card-text"><a href="{{url_for('imgs', id=cI.id)}}">{{cI.titre}}</a></p>
   			</div>
+  		</div>	
 	</div>
 {% endfor %}
 </div>

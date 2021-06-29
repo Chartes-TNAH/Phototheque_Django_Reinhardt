@@ -9,7 +9,7 @@ Si il y a un résultat, alors il s'affiche [260320 SOUS FORME DE DATES]-->
     <p>Il y a {{resultats.total}} résultats qui correspondent à votre requête :</p>
   <ul>
       {% for resultat in resultats.items %}
-        <li><a href="{{url_for('img',id=resultat.id)}}">{{resultat.titre}}</a></li>
+        <li><a href="{{url_for('imgs',id=resultat.id)}}">{{resultat.titre}}</a></li>
 
       {% endfor %}
 <!--Ici on renvoi au template img (page imgs.html qui contient les photographies via les chemins vers le fichier img dans static, 
@@ -38,5 +38,6 @@ on affiche leur titre à l'écran le url_for permet d'y accèder en cliquant sur
        
     </ul>
   </nav>
-    {% endif %}
+  {% endif %}
+  
 {% endblock %} 
