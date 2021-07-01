@@ -2,6 +2,28 @@
 ---destinée à la réalisation de l'application Python pour la fin du module
 ---dispensé aux M2-TNAH par Thibault CLérice
 
+BEGIN TRANSACTION;
+
+CREATE TABLE IF NOT EXISTS `user` (
+	`user_id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`user_nom`	TINYTEXT NOT NULL,
+	`user_prenom`	TINYTEXT  NOT NULL,
+	`user_login`	VARCHAR ( 45 ) NOT NULL,
+	`user_email`	TINYTEXT NOT NULL,
+	`user_motdepasse`	VARCHAR ( 100 ) NOT NULL,
+	`user_type`	TEXT DEFAULT 'user'
+);
+
+DROP TABLE IF EXISTS `authorship`;
+CREATE TABLE IF NOT EXISTS `authorship` (
+	`authorship_id`	integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`authorship_user_id`	integer NOT NULL,
+	`authorship_image_id`	integer NOT NULL,
+	`authorship_date`	DATETIME DEFAULT current_timestamp,
+	FOREIGN KEY(authorship_user_id) REFERENCES user(user_id),
+	FOREIGN KEY(authorship_image_id) REFERENCES image(id)
+);
+
 CREATE TABLE IF NOT EXISTS Image (
 	id	INTEGER PRIMARY KEY AUTOINCREMENT,
 	titre TEXT NOT NULL,
@@ -11,8 +33,40 @@ CREATE TABLE IF NOT EXISTS Image (
 	description TEXT NOT NULL,
 	source TEXT NOT NULL,
 	tag TEXT NOT NULL,
-	orientation TEXT NOT NULL
+	orientation TEXT NOT NULL,
+	image_valid	TINYTEXT DEFAULT 'y',
+	img_user_id INTEGER
 );
+
+CREATE TABLE IF NOT EXISTS tag_img (
+	tag_mot TEXT NOT NULL PRIMARY KEY
+);
+
+INSERT INTO `tag` (
+	`tag_mot`) 
+VALUES 
+("quintette"),
+("musicien"),
+("famille"),
+("portrait"),
+("autre")
+;
+
+CREATE TABLE IF NOT EXISTS orientation_img (
+	orientation_type TEXT NOT NULL PRIMARY KEY
+);
+
+INSERT INTO `orientation` (
+	`orientation_type`) 
+VALUES 
+("portrait"),
+("paysage")
+;
+
+
+COMMIT;
+
+BEGIN TRANSACTION;
 
 INSERT or IGNORE INTO Image (titre, chemin, date, nom_photographe,description,source,tag,orientation) VALUES ('Django en famille', '<img src="/static/img/002.jpg">', 'circa 1920','', 'Django en famille. De gauche à droite : sa mère, dite Negros (la deuxième), Django (le septième).', 'BnF / Fonds Ch. Delaunay, Boîte 71, page 3', 'famille', 'paysage');
 INSERT or IGNORE INTO Image (titre, chemin, date, nom_photographe,description,source,tag,orientation) VALUES ('Django adolescent au banjo', '<img src="/static/img/003.jpg">', 'circa 1923','', 'Django adolescent au banjo. ', 'BnF / Fonds Ch. Delaunay, Boîte 71, page 4', 'banjo', 'portrait');

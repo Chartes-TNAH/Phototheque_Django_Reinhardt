@@ -1,0 +1,25 @@
+{% extends 'containeur.html'%}
+{%block contenu%}
+
+<!--Cette page affiche la galerie d'images-->
+
+<h1>Galerie des photographies de Django Reinhardt</h1>
+
+<h4 style="text-align: center;">Le site recense {{Images|length}} photos actuellement</h4>
+<br>
+
+<!-- Grid row -->
+<div class="gallery" id="gallery">
+{% for cI in Images %}
+	<div>
+  		<div class="card">{{cI.chemin|safe}}
+  			<div class="card-body">
+    			<p class="card-text"><a href="{{url_for('imgs', id=cI.id)}}">{{cI.titre}}</a></p>
+  			</div>
+  		</div>
+	</div>	
+{% endfor %}
+</div>
+{%endblock contenu%}
+
+<!-- Le url_for('img', id=cI.id) permet de renvoyer vers la page individuelle de chaque image lorsque l'on clique sur le lien -->

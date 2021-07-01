@@ -1,0 +1,36 @@
+{% extends 'containeur.html'%}
+{%block contenu%}
+
+<!--Cette page affiche les images par contributions-->
+
+<h1>Contributions</h1>
+
+<div class="container" style="padding-top:1%;">
+  <div class="row">
+  	<div class="col-1"></div>
+    <div class="col-10" style="text-align:center;">
+    {% for contr in user_contribute %}
+	<h4 style="text-align: center;">Liste des photographies fournies par {{contr.user_prenom}} {{contr.user_nom}} : </h4>
+		{% endfor %}
+		<br>
+		</div>
+  </div>
+</div>
+
+<!-- Grid row -->
+<div class="gallery" id="gallery">
+{% for cI in Images %}
+	<div>
+  		<div class="card">{{cI.chemin|safe}}
+  			<div class="card-body">
+    			<p class="card-text"><a href="{{url_for('imgs', id=cI.id)}}">{{cI.titre}}</a></p>
+  			</div>
+  		</div>	
+	</div>
+{% endfor %}
+</div>
+{%endblock contenu%}
+
+
+
+<!-- Le url_for('img', id=cI.id) permet de renvoyer vers la page individuelle de chaque image lorsque l'on clique sur le lien -->

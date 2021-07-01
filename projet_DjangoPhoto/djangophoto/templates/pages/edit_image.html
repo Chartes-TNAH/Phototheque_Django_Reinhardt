@@ -1,0 +1,101 @@
+{% extends "containeur.html" %}
+{%block contenu%}
+
+
+
+{% block corps %}
+
+<div>
+    <center>
+        <h1>Ajouter une image</h1>
+        <p>Complétez le formulaire et cliquez sur "Ajouter" pour ajouter une nouvelle image à la photothèque</p>
+    </center>
+</div>
+<form class="form" method="POST" action="{{url_for('upload')}}" style="text-align: center" enctype="multipart/form-data">
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="titre" placeholder="Titre"/>
+    </div>
+  </div>
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="date" placeholder="Date"/>
+    </div>
+  </div>
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="description" placeholder="Description"/>
+    </div>
+  </div> 
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="author" placeholder="Nom du photographe"/>
+    </div> 
+  </div>
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="source" placeholder="Source"/>
+    </div>
+  </div> 
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="lien" placeholder="Lien éventuel de la source"/>
+    </div>
+  </div>
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <select class="form-control" name="clef">
+            <option value="all">Sélectionner un mot-clef</option>
+            {% for clef in tag_img %}
+            <option value="{{clef.tag_mot}}">{{clef.tag_mot}}</option>
+            {% endfor %}
+        </select>
+    </div>
+  </div>
+  <div class="form-inline my-4">
+    <div class="col-sm-10">
+      <select class="form-control" name="sens">
+            <option value="all">Sélectionner l'orientation</option>
+            {% for sens in orientation_img %}
+            <option value="{{sens.orientation_type}}">{{sens.orientation_type}}</option>
+            {% endfor %}
+            <!--<option value="portrait">Portrait</option>
+            <option value="paysage">Paysage</option>-->
+        </select>
+    </div>
+  </div>
+  
+    <!-- IMPORT DE FICHIER (name = file) -->
+    <div class="form-inline my-4">
+    <div class="col-sm-10">
+        <div class="input-group row" style="padding: 10px">
+            <label class="col-md-2" for="input-file" style="margin: auto; font-size: 24px"><b>Fichier</b></label>
+            <input id="input-file"
+                   type="file"
+                   class="col-md-6"
+                   name="file"
+                   required
+            />
+            <div class="col-md-6">
+                <p class="text-muted" style="font-size: 16px; margin: -5px; margin-bottom: 10px"><u>Extensions autorisées</u> : </p>
+                <p class="text-muted" style="font-size: 16px; margin: -5px"> .jpg,
+                    .jpeg, .gif, .bmp, .png</p>
+            </div>
+        </div>
+        </div>
+        
+<!--  <div>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+  </div> -->
+  
+        <div class="row" style="text-align: center; padding: 2em">
+        <div class="col-md-5"></div>
+   	<button type="submit" class="btn btn-primary">Ajouter</button>
+   	</div>
+</div>
+</form>
+  {% endblock %}
+
+
+</div>
+{%endblock contenu%}

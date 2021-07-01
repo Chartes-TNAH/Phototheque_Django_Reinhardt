@@ -1,0 +1,45 @@
+{% extends 'containeur.html'%}
+{% block contenu %}
+
+<!--Cette page affiche la liste des contributions-->
+
+<h1>Liste des contributions dans la photothèque Django Reinhardt</h1>
+
+
+<div class="container" style="padding-top:1%;">
+  <div class="row">
+  	<div class="col-1"></div>
+    <div class="col-10" style="text-align:center;">
+		<h4 style="text-align: center;">{{nb_contributor}} personnes contribuent actuellement à la photothèque :</h4>
+	</div>
+	</div>
+</div>
+
+
+
+<!-- Grid row -->
+<div class="biog">
+	<div class="col-12">
+{% for contr in contribute %}
+{% if contr.nombre != 0 %}
+	<div>
+  		<div class="col-12">
+  			<li>{{contr.user_prenom}} {{contr.user_nom}} : {{contr.nombre}} contribution(s)</li>
+  			<p><a href="{{url_for('galerie_contribute', user_id=contr.user_id)}}">Afficher les contributions</a></p>
+  		</div>
+	</div>
+{% endif %}
+{% endfor %}
+	</div>
+</div>
+
+
+{% endblock contenu %}
+
+
+<!-- Le url_for('img', id=cI.id) permet de renvoyer vers la page individuelle de chaque image lorsque l'on clique sur le lien -->
+<!-- 	<div class="card-body">
+  			, contr=contr.user_id, nombre=contr.COUNT
+    			<p class="card-text"><a href="{{url_for('img', id=cI.id)}}">{{cI.titre}}</a></p>
+  			</div>-->
+

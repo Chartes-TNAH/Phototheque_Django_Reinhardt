@@ -1,0 +1,17 @@
+{% extends 'containeur.html'%}
+{%block contenu%}
+
+<!--Cette page affiche la page d'à propos-->
+
+<h1>À propos</h1>
+
+<div class="propos"><p>L'application "Photothèque Django Reinhardt" est réalisée dans le cadre du cours dispensé par Thibault Clérice au Master 2 <a href="http://www.chartes.psl.eu/fr/cursus/master-technologies-numeriques-appliquees-histoire" target="_blank">Technologies Numériques Appliquées à l'Histoire</a> à <a href="http://www.chartes.psl.eu/fr" target="_blank"> l'Ecole nationale des Chartes.</a></p>
+<p>L'exercice consiste en la réalisation d'une API en se basant sur le langage de programmation <a href="https://www.python.org/" target="_blank"> Python 3.x</a>, le micro-framework <a href="https://flask.palletsprojects.com/en/1.1.x/" target="_blank"> Flask</a> et les langages HTML et CSS. Les éléments qui composent l'habillage du site (carousel, <em>cards</em> pour affichage des images, etc) proviennent du framework <a href="https://getbootstrap.com/" target="_blank">Bootstrap 4</a>. La base de données est réalisée à partir de SQLlite et elle est gérée par Python grâce à l'ORM SQLAlchemy afin de permettre l'utilisation de la fonction <em>Recherche</em> dans le corpus.</p> 
+<p>Étant souvent sollicitée pour retrouver la source ou l'auteur des photographies concernant Django Reinhardt (1910-1953), le choix de mon devoir s'est naturellement porté sur la réalisation d'une base de données simple rassemblant un échantillon des photographies du guitariste retraçant sa vie. Le corpus présenté est restreint pour les besoins de l'exercice. Cette application présente donc une courte biographie du guitariste et une galerie de photographies. Un moteur de recherche permet d'accéder aux visuels grâce à des requêtes constituées de mots-clefs, du titre de la photographie, de son année et ou de sa source. Une notice accompagne chaque photographie, en rassemblant ses éléments descriptifs.</p>
+<p>Cette photothèque peut être enrichie par des utilisateurs avec la création d'un compte. Un identifiant permet un accès à un espace personnel et l'utilisateur peut ajouter de nouvelles photographies. Il peut également modifier les notices de ses images de son compte ou les supprimer. Cette photothèque peut être améliorée et servir de base à un projet plus complet sur le long terme. L'ajout d'une image devra se faire sous le contrôle du concepteur de l'API. L'insertion d'une source dans la notice devra permettre de l'associer à un lien internet.</p>
+
+<p>Je tiens à remercier <a href="https://www.doyoubuzz.com/chloe-fize" target="_blank">Chloé Fize</a>, car mon devoir s'inspire de la présentation <a href="https://github.com/Chartes-TNAH/AppPy_Atget_M2TNAH" target="_blank">du sien</a> ! 
+<br/>Je remercie également les professeurs de <a href="http://www.chartes.psl.eu/fr" target="_blank"> l'Ecole nationale des Chartes</a> et tous les étudiants de ce Master 2, <a href="https://github.com/orgs/Chartes-TNAH/teams/m2-2019/members" target="_blank">promotion 2019-2020</a>, pour leur soutien tout au long de cette année universitaire si particulière !<br/>
+</div>
+<!--le target="_blank" permettent d'ouvrir le lien dans un nouvel onglet lorsque l'utilisateur clique dessus-->
+{%endblock contenu%}
